@@ -27,9 +27,10 @@ logs/
 
 # Terraform
 terraform/.terraform/
-terraform/.terraform.lock.hcl
-terraform/terraform.tfstate
-terraform/terraform.tfstate.backup
+terraform/keys/
+terraform/*.tfstate
+terraform/*.tfstate.backup
 terraform/*.tfvars
+terraform/.terraform.lock.hcl
 
 brazil_flights_data/
