@@ -1,0 +1,29 @@
+services:
+  pgdatabase:
+    image: postgres:13
+    container_name: brazil_flights_postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=brazil_flights
+    volumes:
+      - "C:/Dev/Zoomcamp/final-project/brazil_flights_data:/var/lib/postgresql/data:rw"
+    ports:
+      - "5555:5432"
+    networks:
+      - brf-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
+    networks:
+     - brf-network
+
+networks:
+  brf-network:
+    name: brf-network
+    driver: bridge

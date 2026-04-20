@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    database: zoomcamp-0001
+    schema: raw
+    tables:
+      - name: raw_brazil_flights
+      - name: raw_public_airports
+      - name: raw_private_airports
+      - name: raw_airlines

@@ -1,0 +1,30 @@
+docker build --no-cache -t brazil_flights_ingest:v001 -f docker/Dockerfile .
+
+
+
+  docker run --rm -it \
+  --network=brf-network \
+  brazil_flights_ingest:v001 \
+  --user=root \
+  --password=root \
+  --host=pgdatabase \
+  --port=5432 \
+  --db=brazil_flights \
+  --table_name=private_airports \
+  --url="https://sistemas.anac.gov.br/dadosabertos/Aerodromos/Aer%C3%B3dromos%20Privados/Lista%20de%20aer%C3%B3dromos%20privados/Aerodromos%20Privados/AerodromosPrivados.csv"
+
+  docker exec -it brazil_flights_postgres psql -U root -d brazil_flights
+
+  docker run -it \
+    -p 8080:80 \
+    -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=root' \
+    -d dpage/pgadmin4
+
+rm -rf .git
+git init
+git branch -M main
+git add .
+git commit -m "Add Brazilian flights data pipeline project"
+git remote add origin https://github.com/SEU-USUARIO/NOME-DO-REPO.git
+git push -u origin main

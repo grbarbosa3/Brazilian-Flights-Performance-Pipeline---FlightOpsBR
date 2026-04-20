@@ -1,0 +1,30 @@
+services:
+  airflow:
+    build:
+      context: .
+      dockerfile: airflow/Dockerfile
+    container_name: brazil_flights_airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/project/keys/gcp-key.json
+      DBT_PROFILES_DIR: /opt/airflow/project/profiles
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./:/opt/airflow/project
+    ports:
+      - "8081:8080"
+    command: >
+      bash -c "
+      airflow db migrate &&
+      airflow users create
+      --username admin
+      --password admin
+      --firstname Gui
+      --lastname Admin
+      --role Admin
+      --email admin@example.com || true &&
+      airflow webserver &
+      airflow scheduler
+      "
